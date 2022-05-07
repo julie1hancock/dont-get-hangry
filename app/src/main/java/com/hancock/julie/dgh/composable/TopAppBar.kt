@@ -16,18 +16,34 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun DGHTopAppBar(
+fun DGHTopAppBarWithStartIcon(
     title: String,
-    navIcon: IconInfo?,
+    navIcon: IconInfo? = null,
     backgroundColor: Color = Color.Blue,
     surfaceColor: Color = Color.White,
     actions: List<IconInfo> = listOf()
 ) {
     TopAppBar(
         title = { Text(title, overflow = TextOverflow.Ellipsis, maxLines = 1) },
-        navigationIcon = {
-            navIcon?.ToComposable(color = surfaceColor)
-        },
+        navigationIcon = { navIcon.ToComposable(color = surfaceColor) },
+        backgroundColor = backgroundColor,
+        contentColor = surfaceColor,
+        elevation = 12.dp,
+        actions = {
+            ToolbarActions(icons = actions, surfaceColor)
+        }
+    )
+}
+
+@Composable
+fun DGHTopAppBar(
+    title: String,
+    backgroundColor: Color = Color.Blue,
+    surfaceColor: Color = Color.White,
+    actions: List<IconInfo> = listOf()
+) {
+    TopAppBar(
+        title = { Text(title, overflow = TextOverflow.Ellipsis, maxLines = 1) },
         backgroundColor = backgroundColor,
         contentColor = surfaceColor,
         elevation = 12.dp,
@@ -85,38 +101,53 @@ fun OverflowMenu(content: @Composable () -> Unit) {
 }
 
 @Composable
-fun DGHSingleToolbarTest(actions: List<IconInfo>, title: String? = null) {
-    DGHTopAppBar(
-        title = title ?: "TITLE",
-        navIcon = IconInfo(
-            icon = DGHIcon.ARROW_BACK,
-            listener = { println("jeh nav back")},
-            color = Color.Blue,
-        ),
-        backgroundColor = Color.Yellow,
-        surfaceColor = Color.Blue,
-        actions = actions
-    )
+fun DGHSingleToolbarIconTest(actions: List<IconInfo> = emptyList(), title: String? = null) {
+    val colors = getColorPair()
+    Column {
+        DGHTopAppBarWithStartIcon(
+            title = title ?: "TITLE",
+            navIcon = IconInfo(
+                icon = DGHIcon.ARROW_BACK,
+                listener = { println("jeh nav back") },
+                color = colors.second,
+            ),
+            backgroundColor = colors.first,
+            surfaceColor = colors.second,
+            actions = actions
+        )
+        DGHVerticalSpacer()
+    }
+}
 
+@Composable
+fun DGHSingleToolbarTest(actions: List<IconInfo> = emptyList(), title: String? = null) {
+    val colors = getColorPair()
+    Column {
+        DGHTopAppBar(
+            title = title ?: "TITLE",
+            backgroundColor = colors.first,
+            surfaceColor = colors.second,
+            actions = actions
+        )
+        DGHVerticalSpacer()
+    }
 }
 
 @Composable
 @Preview
 fun DGHToolbarTest() {
-    val l = listOf(
-        IconInfo(icon = DGHIcon.SETTINGS, listener = { println("jeh SETTINGS")}),
-        IconInfo(icon = DGHIcon.DINING, listener = { println("jeh DINING")}),
-        IconInfo(icon = DGHIcon.FILTER, listener = { println("jeh FILTER")}),
-        IconInfo(icon = DGHIcon.CAMERA, listener = { println("jeh CAMERA")}),
-        IconInfo(icon = DGHIcon.STAR_FILLED, listener = { println("jeh STAR_FILLED")}),
-        IconInfo(icon = DGHIcon.THUMB_UP, listener = { println("jeh THUMB_UP")}),
-    )
+    val l = DGHIcon.values().map {
+        IconInfo(icon = it, listener = { println ("icon clicked: ${it.contentDescription}")})
+    }
 
     Column {
         (0..6).forEach {
-          DGHSingleToolbarTest(l.take(it))
+            DGHSingleToolbarIconTest(l.take(it))
+            DGHSingleToolbarTest(l.take(it))
         }
+        DGHSingleToolbarIconTest(l, "title! ".repeat(20))
         DGHSingleToolbarTest(l, "title! ".repeat(20))
-
+        DGHSingleToolbarIconTest(title = "title! ".repeat(20))
+        DGHSingleToolbarTest(title = "title! ".repeat(20))
     }
 }

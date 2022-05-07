@@ -5,10 +5,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import com.hancock.julie.dgh.composable.*
 import com.hancock.julie.dgh.ui.theme.DGHTheme
 
@@ -23,15 +25,15 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     Scaffold(
-                        topBar = { DGHTopAppBar(
+                        topBar = { DGHTopAppBarWithStartIcon(
                             title = "Don't Get Hangry",
-                            navIcon = IconInfo(
-                                icon = DGHIcon.ARROW_BACK,
-                                listener = {
-                                    "hello!".toast(this)
-                                    println("JEH menu back")
-                                }
-                            )
+//                            navIcon = IconInfo(
+//                                icon = DGHIcon.ARROW_BACK,
+//                                listener = {
+//                                    "hello!".toast(this)
+//                                    println("JEH menu back")
+//                                }
+//                            )
                         )},
                         content = {
                             Column {
@@ -45,5 +47,21 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+}
+
+
+@Composable
+@Preview
+fun DGHTestAll() {
+    Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+        DGHIconTest()
+        DGHDividerWithSpace()
+        DGHTextTest()
+        DGHDividerWithSpace()
+        DGHToolbarTest()
+        DGHDividerWithSpace()
+        DGHTextFieldTest()
+        DGHDividerWithSpace()
     }
 }

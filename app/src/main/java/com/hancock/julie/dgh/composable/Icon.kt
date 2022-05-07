@@ -32,6 +32,11 @@ data class IconInfo(
     }
 }
 
+@Composable
+fun IconInfo?.ToComposable(color: Color = Color.Unspecified) {
+    this?.ToComposable(color)
+}
+
 enum class DGHIcon(
     private val icon: ImageVector? = null,
     private val resource: Int? = null,
@@ -162,11 +167,11 @@ fun DGHIconTest() {
     Column {
         DGHIcon.THUMB_UP.ToComposable()
         DGHIcon.STAR_FILLED.ToComposable(listener = { println("JEH printing") })
-        DGHIcon.CLOCK.ToComposable(color = Color.Red)
+        DGHIcon.CLOCK.ToComposable(color = getColor())
         DGHIcon.ADD.ToComposable(size = DGHSize(width = 12.dp))
         DGHIcon.CAMERA.ToComposable(size = DGHSize(width = 60.dp, height = 60.dp))
-        DGHIcon.THUMB_DOWN.ToComposable(color = Color.Blue, listener = { println("JEH end") }, size = DGHSize(width = 40.dp))
-        IconInfo(icon = DGHIcon.SETTINGS, listener = { println("jeh SETTINGS")}, color = Color.Green).ToComposable()
-        IconInfo(icon = DGHIcon.SETTINGS, listener = { println("jeh SETTINGS")}, color = Color.Green).ToComposable(Color.Blue)
+        DGHIcon.THUMB_DOWN.ToComposable(color = getColor(), listener = { println("JEH end") }, size = DGHSize(width = 40.dp))
+        IconInfo(icon = DGHIcon.SETTINGS, listener = { println("jeh SETTINGS")}, color = getColor()).ToComposable()
+        IconInfo(icon = DGHIcon.SETTINGS, listener = { println("jeh SETTINGS")}, color = getColor()).ToComposable(getColor())
     }
 }
