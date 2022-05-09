@@ -50,6 +50,20 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@Composable
+@Preview
+fun WelcomeScreen() {
+    Column {
+        DGHTopAppBar(title = "Don't Get Hangry")
+        DGHTextH1(text = "Welcome to Don't Get Hangry")
+        DGHTextP1(text = "What should we call you?")
+        DGHTextP2(text = "TODO: photo input")
+        DGHTextField(label = "Name", onValueChangeListener = {s -> })
+//        DGHButton()
+        DGHTextP2(text = "Why are we asking?")
+    }
+}
+
 
 @Composable
 @Preview

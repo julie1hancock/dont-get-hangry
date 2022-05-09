@@ -1,5 +1,7 @@
 package com.hancock.julie.dgh.composable
 
+import androidx.compose.material.ButtonColors
+import androidx.compose.runtime.State
 import androidx.compose.ui.graphics.Color
 
 private var colorPairIndex = 0
@@ -25,16 +27,16 @@ private var colorIndex = 0
 
 private val colors = listOf(
 //    Color.Yellow,
-    Color.Red,
     Color.DarkGray,
 //    Color.White,
     Color.Magenta,
 //    Color.Gray,
     Color.Cyan,
     Color.Black,
+    Color.Red,
     Color.Green,
     Color.Blue,
-    Color.LightGray
+//    Color.LightGray
 )
 
 fun getColor(): Color {
@@ -43,3 +45,13 @@ fun getColor(): Color {
     colorIndex++
     return ret
 }
+
+               /*
+
+               fun TileSet.union(another: TileSet) : TileSet =
+    object : TileSet {
+        override fun contains(x: Int, y: Int) : Boolean =
+            this@union.contains(x, y) || another.contains(x, y)
+    }
+
+                */
