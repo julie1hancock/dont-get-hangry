@@ -1,7 +1,7 @@
 package com.hancock.dontgethangry.composables
 
+import android.content.res.Configuration
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -31,15 +31,30 @@ import com.hancock.dontgethangry.ui.theme.DontGetHangryTheme
 @Composable
 fun DGHTextField(
     hint: String,
+    validChecker: ((String) -> Boolean)?,// = null,
+    onValidChanged: ((Boolean) -> Unit)?,// = null
 ) {
     var textInput by remember { mutableStateOf(TextFieldValue()) }
+
+    fun checkValid(): Boolean {
+        val x = validChecker?.invoke(textInput.text) ?: true
+        println("JEH checkValid - $x ")
+        return x
+    }
+
+    var isValid by remember { mutableStateOf(false)}
+
     OutlinedTextField(
         value = textInput,
         onValueChange = {
             textInput = it
+            isValid = checkValid()
         },
         label = { Text(hint) },
-        modifier = Modifier.padding(all = 16.dp).wrapContentHeight().fillMaxWidth(),
+        modifier = Modifier
+            .padding(all = 16.dp)
+            .wrapContentHeight()
+            .fillMaxWidth(),
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.None,
             autoCorrect = false,
@@ -53,25 +68,26 @@ fun DGHTextField(
         singleLine = true,
         trailingIcon = { DGHIcon(
             icon = Icons.Filled.Clear,
-            modifier = Modifier.clickable { textInput = TextFieldValue() },
-        )},
-        //isError
-        )
+            modifier = Modifier.clickable {
+                textInput = TextFieldValue()
+                isValid = checkValid()
+            },
+        )}
+    )
 }
 
 
-
-
-@Preview
+@Preview(name = "Light Mode")
+@Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun PreviewEmptyTextField() {
     DontGetHangryTheme {
-        // A surface container using the 'background' color from the theme
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
-        ) {
-            DGHTextField(hint = "name")
+        Surface(color = MaterialTheme.colorScheme.background) {
+            DGHTextField(
+                hint = "hint",
+                validChecker = {s -> s.length > 2},
+                onValidChanged = {isValid -> println("JEH onValidChanged: $isValid")}
+            )
         }
     }
 }

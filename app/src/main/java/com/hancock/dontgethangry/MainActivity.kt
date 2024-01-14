@@ -6,10 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.hancock.dontgethangry.composables.DGHTextField
 import com.hancock.dontgethangry.ui.theme.DontGetHangryTheme
 
@@ -18,12 +15,15 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             DontGetHangryTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    DGHTextField("Android")
+                    DGHTextField(
+                        hint = "Android",
+                        validChecker = {s -> s.length > 2},
+                        onValidChanged = {isValid -> println("JEH onValidChanged: $isValid")}
+                    )
                 }
             }
         }
